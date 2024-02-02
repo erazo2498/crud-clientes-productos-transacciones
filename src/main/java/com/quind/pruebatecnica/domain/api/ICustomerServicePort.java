@@ -6,4 +6,6 @@ public interface ICustomerServicePort {
     void createCustomer(Customer customer);
 
     void updateCustomer(Customer customer);
+
+    void deleteCustomerById(Long id);
 }

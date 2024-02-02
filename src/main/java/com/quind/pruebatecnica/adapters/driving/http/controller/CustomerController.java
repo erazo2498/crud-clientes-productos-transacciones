@@ -50,6 +50,19 @@ public class CustomerController {
     public ResponseEntity<Map<String,String>> updateCustomer(@Valid @RequestBody RequestUpdateCustomerDto customerRequestDto){
         customerHandler.updateCustomer(customerRequestDto);
         return ResponseEntity.status(HttpStatus.OK)
-                .body(Collections.singletonMap(Constants.RESPONSE_MESSAGE_KEY,Constants.CUSTOMER_UPDATE_MESSAGE));
+                .body(Collections.singletonMap(Constants.RESPONSE_MESSAGE_KEY,Constants.CUSTOMER_UPDATED_MESSAGE));
+    }
+    @Operation(summary = "Update a customer",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "customer deleted",
+                            content = @Content(mediaType = "application/json", schema = @Schema(ref = "#/components/schemas/Map"))),
+                    @ApiResponse(responseCode = "404", description = "customer not found",
+                            content = @Content(mediaType = "application/json", schema = @Schema(ref = "#/components/schemas/Error")))
+            })
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Map<String,String>> updateCustomer(@PathVariable Long id){
+        customerHandler.deleteCustomerById(id);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(Collections.singletonMap(Constants.RESPONSE_MESSAGE_KEY,Constants.CUSTOMER_DELETED_MESSAGE));
     }
 }

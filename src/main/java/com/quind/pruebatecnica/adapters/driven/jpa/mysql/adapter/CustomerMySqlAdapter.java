@@ -39,6 +39,14 @@ public class CustomerMySqlAdapter implements ICustomerPersistencePort {
         customerRepository.save(customerEntityMapper.toEntity(customer));
     }
 
+    @Override
+    public void deleteCustomerById(Long id) {
+        if(!customerRepository.existsById(id)){
+            throw new CustomerNotFoundException();
+        }
+        customerRepository.deleteById(id);
+    }
+
     private void modifyDateIfPresent(Customer customer) {
         Optional<CustomerEntity> customerEntity = customerRepository.findById(customer.getId());
         customerEntity.ifPresentOrElse(

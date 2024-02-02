@@ -6,5 +6,5 @@ import com.quind.pruebatecnica.adapters.driving.http.dto.request.customer.Reques
 public interface ICustomerHandler {
     void createCustomer(CustomerRequestDto customerRequestDto);
     void updateCustomer(RequestUpdateCustomerDto customerRequestDto);
-
+    void deleteCustomerById(Long id);
 }

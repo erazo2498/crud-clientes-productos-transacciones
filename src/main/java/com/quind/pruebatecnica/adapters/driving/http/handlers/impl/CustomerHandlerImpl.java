@@ -22,4 +22,9 @@ public class CustomerHandlerImpl implements ICustomerHandler {
     public void updateCustomer(RequestUpdateCustomerDto customerRequestDto) {
         customerServicePort.updateCustomer(customerRequestMapper.toCustomer(customerRequestDto));
     }
+
+    @Override
+    public void deleteCustomerById(Long id) {
+        customerServicePort.deleteCustomerById(id);
+    }
 }

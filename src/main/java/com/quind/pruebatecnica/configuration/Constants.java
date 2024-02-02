@@ -6,7 +6,8 @@ public class Constants {
     }
     public static final String RESPONSE_MESSAGE_KEY = "message";
     public static final String CUSTOMER_CREATED_MESSAGE = "Customer created successfully";
-    public static final String CUSTOMER_UPDATE_MESSAGE = "Customer updated successfully";
+    public static final String CUSTOMER_UPDATED_MESSAGE = "Customer updated successfully";
+    public static final String CUSTOMER_DELETED_MESSAGE = "Customer deleted successfully";
     public static final String RESPONSE_ERROR_MESSAGE_KEY = "error";
     public static final String CUSTOMER_IS_MINOR_MESSAGE = "El cliente es menor de edad";
     public static final String CUSTOMER_NOT_FOUND_MESSAGE = "Cliente no encontrado";
