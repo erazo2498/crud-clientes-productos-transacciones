@@ -25,5 +25,6 @@ public class RequestUpdateCustomerDto {
     @Pattern(regexp = "^(\\S+@\\S+\\.\\S+)$",message = "Debe ser una dirección de correo electrónico con un formato correcto: xxxx@xxxxx.xxx")
     private String mail;
     @Past(message = "La fecha debe ser una fecha anterior a la actual")
+    @NotNull(message = "La fecha de nacimiento es requerida")
     private LocalDate birthday;
 }
