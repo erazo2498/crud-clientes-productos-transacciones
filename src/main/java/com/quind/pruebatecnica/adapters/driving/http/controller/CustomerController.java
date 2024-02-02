@@ -3,6 +3,7 @@ package com.quind.pruebatecnica.adapters.driving.http.controller;
 import com.quind.pruebatecnica.adapters.driving.http.dto.request.CustomerRequestDto;
 import com.quind.pruebatecnica.adapters.driving.http.handlers.ICustomerHandler;
 import com.quind.pruebatecnica.configuration.Constants;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +21,8 @@ import java.util.Map;
 public class CustomerController {
     private final ICustomerHandler customerHandler;
 
-    @PostMapping("/create")
-    public ResponseEntity<Map<String,String>> saveCustomer(@RequestBody CustomerRequestDto customerRequestDto){
+    @PostMapping
+    public ResponseEntity<Map<String,String>> saveCustomer(@Valid @RequestBody CustomerRequestDto customerRequestDto){
         customerHandler.createCustomer(customerRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(Collections.singletonMap(Constants.RESPONSE_MESSAGE_KEY,Constants.CUSTOMER_CREATED_MESSAGE));
