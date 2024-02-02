@@ -1,6 +1,7 @@
 package com.quind.pruebatecnica.adapters.driving.http.handlers.impl;
 
-import com.quind.pruebatecnica.adapters.driving.http.dto.request.CustomerRequestDto;
+import com.quind.pruebatecnica.adapters.driving.http.dto.request.customer.CustomerRequestDto;
+import com.quind.pruebatecnica.adapters.driving.http.dto.request.customer.RequestUpdateCustomerDto;
 import com.quind.pruebatecnica.adapters.driving.http.handlers.ICustomerHandler;
 import com.quind.pruebatecnica.adapters.driving.http.mapper.ICustomerRequestMapper;
 import com.quind.pruebatecnica.domain.api.ICustomerServicePort;
@@ -15,5 +16,10 @@ public class CustomerHandlerImpl implements ICustomerHandler {
     @Override
     public void createCustomer(CustomerRequestDto customerRequestDto) {
         customerServicePort.createCustomer(customerRequestMapper.toCustomer(customerRequestDto));
+    }
+
+    @Override
+    public void updateCustomer(RequestUpdateCustomerDto customerRequestDto) {
+        customerServicePort.updateCustomer(customerRequestMapper.toCustomer(customerRequestDto));
     }
 }

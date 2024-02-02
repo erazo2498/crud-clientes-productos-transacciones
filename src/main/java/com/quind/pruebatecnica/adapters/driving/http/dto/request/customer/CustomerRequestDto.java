@@ -1,4 +1,4 @@
-package com.quind.pruebatecnica.adapters.driving.http.dto.request;
+package com.quind.pruebatecnica.adapters.driving.http.dto.request.customer;
 
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
