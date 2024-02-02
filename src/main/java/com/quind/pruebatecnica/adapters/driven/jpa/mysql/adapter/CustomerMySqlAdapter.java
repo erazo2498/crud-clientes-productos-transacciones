@@ -10,6 +10,7 @@ import com.quind.pruebatecnica.domain.spi.ICustomerPersistencePort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Transactional
@@ -26,17 +27,29 @@ public class CustomerMySqlAdapter implements ICustomerPersistencePort {
         ) {
             throw new CustomerAlreadyExistsException();
         }
+        customer.setCreatedDate(LocalDateTime.now());
+        customer.setModifiedDate(LocalDateTime.now());
         customerRepository.save(customerEntityMapper.toEntity(customer));
     }
 
     @Override
     public void updateCustomer(Customer customer) {
-        if (!customerRepository.existsById(customer.getId())
-        ) {
-            throw new CustomerNotFoundException();
-        }
+        modifyDateIfPresent(customer);
         validateIfIdentificationExistInOtherCustomer(customer);
         customerRepository.save(customerEntityMapper.toEntity(customer));
+    }
+
+    private void modifyDateIfPresent(Customer customer) {
+        Optional<CustomerEntity> customerEntity = customerRepository.findById(customer.getId());
+        customerEntity.ifPresentOrElse(
+                customerEntity1 -> {
+                    customer.setCreatedDate(customerEntity1.getCreatedDate());
+                    customer.setModifiedDate(LocalDateTime.now());
+                },
+                () -> {
+                    throw new CustomerNotFoundException();
+                }
+        );
     }
 
     private void validateIfIdentificationExistInOtherCustomer(Customer customer) {
