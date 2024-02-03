@@ -18,7 +18,6 @@ public class ProductRequestDto {
     private String accountNumber;
     @NotBlank(message = "El tipo de status no puede ser nulo o vacio")
     private String status;
-    @Positive
     private BigDecimal balance;
     @NotNull
     private Boolean exemptGMF;

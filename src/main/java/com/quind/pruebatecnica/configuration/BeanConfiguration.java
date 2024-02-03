@@ -36,7 +36,7 @@ public class BeanConfiguration {
 
     @Bean
     public IProductServicePort productServicePort(){
-        return new ProductUseCase(productPersistencePort());
+        return new ProductUseCase(productPersistencePort(), customerPersistencePort());
     }
 
     @Bean
