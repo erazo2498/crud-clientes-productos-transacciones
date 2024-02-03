@@ -15,5 +15,7 @@ public class Constants {
     public static final String CUSTOMER_ALREADY_EXISTS_WITH_ID_MESSAGE = "No se puede actualizar sus datos, ya existe otro cliente con los datos proporcionados";
 
     public static final String PRODUCT_CREATED_MESSAGE = "Product created successfully";
+    public static final String ACCOUNT_TYPE_INVALID_MESSAGE = "No existe un tipo de cuenta para el numero de cuenta asociado";
+
 
 }
