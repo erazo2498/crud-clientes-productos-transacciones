@@ -2,20 +2,19 @@ package com.quind.pruebatecnica.adapters.driving.http.dto.request.product;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @Getter
 public class ProductRequestDto {
     private Long id;
-    @NotBlank(message = "El tipo de accountType no puede ser nulo o vacio")
-    private String accountType;
     @NotBlank(message = "El tipo de accountNumber no puede ser nulo o vacio")
+    @Pattern(regexp = "^(33|53)\\d{8}$", message = "El número de las cuentas debe iniciar en '33 o 53' y tener 10 dígitos numéricos.")
     private String accountNumber;
     @NotBlank(message = "El tipo de status no puede ser nulo o vacio")
     private String status;
@@ -23,8 +22,6 @@ public class ProductRequestDto {
     private BigDecimal balance;
     @NotNull
     private Boolean exemptGMF;
-    private LocalDateTime createdDate;
-    private LocalDateTime modifiedDate;
     @Positive
     private Long customerId;
 }
