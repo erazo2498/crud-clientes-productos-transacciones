@@ -1,7 +1,6 @@
 package com.quind.pruebatecnica.configuration;
 
 public class Constants {
-
     private Constants() {
         throw new IllegalStateException("Utility class");
     }
@@ -16,6 +15,10 @@ public class Constants {
     public static final String CUSTOMER_ALREADY_EXISTS_WITH_ID_MESSAGE = "No se puede actualizar sus datos, ya existe otro cliente con los datos proporcionados";
 
     public static final String PRODUCT_CREATED_MESSAGE = "Product created successfully";
+    public static final String PRODUCT_CANCELED_MESSAGE = "Product canceled successfully";
+    public static final String PRODUCT_ACTIVATED_MESSAGE = "Product activated successfully";
+    public static final String PRODUCT_INACTIVATED_MESSAGE = "Product inactivated successfully";
+
     public static final String PRODUCT_ALREADY_EXISTS_WITH_ID_MESSAGE = "La cuenta ya existe, no es posible crear una nueva";
 
     public static final String ACCOUNT_TYPE_INVALID_MESSAGE = "No existe un tipo de cuenta para el numero de cuenta asociado";

@@ -12,10 +12,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.Map;
@@ -39,4 +36,24 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(Collections.singletonMap(Constants.RESPONSE_MESSAGE_KEY, Constants.PRODUCT_CREATED_MESSAGE));
     }
+
+    @PutMapping("/activate/{id}")
+    public ResponseEntity<Map<String,String>> activateProduct(@PathVariable Long id){
+        productHandler.activateProduct(id);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(Collections.singletonMap(Constants.RESPONSE_MESSAGE_KEY, Constants.PRODUCT_ACTIVATED_MESSAGE));
+    }
+    @PutMapping("/inactivate/{id}")
+    public ResponseEntity<Map<String,String>> inactivateProduct(@PathVariable Long id){
+        productHandler.inactivateProduct(id);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(Collections.singletonMap(Constants.RESPONSE_MESSAGE_KEY, Constants.PRODUCT_INACTIVATED_MESSAGE));
+    }
+    @PutMapping("/cancel/{id}")
+    public ResponseEntity<Map<String,String>> cancelProduct(@PathVariable Long id){
+        productHandler.cancelProduct(id);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(Collections.singletonMap(Constants.RESPONSE_MESSAGE_KEY, Constants.PRODUCT_CANCELED_MESSAGE));
+    }
+
 }

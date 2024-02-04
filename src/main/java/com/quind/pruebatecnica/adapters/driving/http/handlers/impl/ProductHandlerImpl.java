@@ -16,4 +16,21 @@ public class ProductHandlerImpl implements IProductHandler {
     public void createProduct(ProductRequestDto productRequestDto) {
         productServicePort.createProduct(productRequestMapper.toCustomer(productRequestDto));
     }
+
+    @Override
+    public void activateProduct(Long id) {
+        productServicePort.activateProduct(id);
+    }
+
+    @Override
+    public void inactivateProduct(Long id) {
+        productServicePort.inactivateProduct(id);
+    }
+
+    @Override
+    public void cancelProduct(Long id) {
+        productServicePort.cancelProduct(id);
+    }
+
+
 }
