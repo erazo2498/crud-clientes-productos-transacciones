@@ -1,6 +1,7 @@
 package com.quind.pruebatecnica.configuration;
 
 public class Constants {
+
     private Constants() {
         throw new IllegalStateException("Utility class");
     }
@@ -19,6 +20,10 @@ public class Constants {
 
     public static final String ACCOUNT_TYPE_INVALID_MESSAGE = "No existe un tipo de cuenta para el numero de cuenta asociado";
     public static final String BALANCE_NEGATIVE_MESSAGE = "No puede tener un saldo negativo";
+
+
+    public static final String TRANSACTION_CREATED_MESSAGE = "transaction created sucesfully";
+
 
 
 }

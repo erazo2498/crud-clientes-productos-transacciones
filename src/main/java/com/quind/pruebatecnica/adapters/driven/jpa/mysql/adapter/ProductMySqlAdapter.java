@@ -8,6 +8,8 @@ import com.quind.pruebatecnica.domain.spi.IProductPersistencePort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 
 @Transactional
 @RequiredArgsConstructor
@@ -18,6 +20,16 @@ public class ProductMySqlAdapter implements IProductPersistencePort {
     @Override
     public void createProduct(Product product) {
         productRepository.save(productEntityMapper.toEntity(product));
+    }
+
+    @Override
+    public void updateProduct(Product product) {
+        productRepository.save(productEntityMapper.toEntity(product));
+    }
+
+    @Override
+    public Optional<Product> getProduct(Long id) {
+        return productRepository.findById(id).map(productEntityMapper::toModel);
     }
 
     @Override
