@@ -52,7 +52,7 @@ public class CustomerController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(Collections.singletonMap(Constants.RESPONSE_MESSAGE_KEY,Constants.CUSTOMER_UPDATED_MESSAGE));
     }
-    @Operation(summary = "Update a customer",
+    @Operation(summary = "deleted a customer",
             responses = {
                     @ApiResponse(responseCode = "200", description = "customer deleted",
                             content = @Content(mediaType = "application/json", schema = @Schema(ref = "#/components/schemas/Map"))),

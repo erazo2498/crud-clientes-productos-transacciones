@@ -2,6 +2,7 @@ package com.quind.pruebatecnica.domain.usecase;
 
 import com.quind.pruebatecnica.domain.api.ICustomerServicePort;
 import com.quind.pruebatecnica.domain.exceptions.AgeNoValidException;
+import com.quind.pruebatecnica.domain.exceptions.DomainException;
 import com.quind.pruebatecnica.domain.model.Customer;
 import com.quind.pruebatecnica.domain.spi.ICustomerPersistencePort;
 
@@ -29,6 +30,9 @@ public class CustomerUseCase implements ICustomerServicePort {
 
     @Override
     public void deleteCustomerById(Long id) {
+        if(customerPersistencePort.haveCustomerAnyProductAssociated(id)){
+            throw new DomainException("No es posible eliminar el cliente porque cuenta con productos asociados");
+        }
         customerPersistencePort.deleteCustomerById(id);
     }
 

@@ -5,6 +5,7 @@ import com.quind.pruebatecnica.domain.model.Customer;
 public interface ICustomerPersistencePort {
     void createCustomer(Customer customer);
     void updateCustomer(Customer customer);
-    void deleteCustomerById(Long id);
-    boolean existCustomerById(Long id);
+    void deleteCustomerById(Long customerId);
+    boolean existCustomerById(Long customerId);
+    boolean haveCustomerAnyProductAssociated(Long customerId);
 }
