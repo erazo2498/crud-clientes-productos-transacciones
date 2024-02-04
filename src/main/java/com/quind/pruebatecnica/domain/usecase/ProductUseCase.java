@@ -67,7 +67,7 @@ public class ProductUseCase implements IProductServicePort {
     public void cancelProduct(Long id) {
         Product product = productPersistencePort.getProduct(id).orElseThrow(()->
                 new DomainException("No es posible cancelar el producto debido a que no existe"));
-        if(!product.getBalance().equals(BigDecimal.ZERO)){
+        if(product.getBalance().compareTo(BigDecimal.ZERO) != 0){
             throw new DomainException("No es posible cancelar el producto porque su saldo no es 0");
         }
 
