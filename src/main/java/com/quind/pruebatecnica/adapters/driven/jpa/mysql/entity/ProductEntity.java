@@ -1,6 +1,7 @@
 package com.quind.pruebatecnica.adapters.driven.jpa.mysql.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,9 +23,11 @@ public class ProductEntity {
     private Long id;
     @Column(name = "account_type", nullable = false)
     private String accountType;
-    @Column(name = "account_number", nullable = false)
+    @Pattern(regexp = "^(33|53)\\d{8}$",
+            message = "El número de las cuentas debe iniciar en '33 o 53' y tener 10 dígitos numéricos.")
+    @Column(name = "account_number", unique = true, nullable = false)
     private String accountNumber;
-    @Column(nullable = false, columnDefinition = "CHAR(1)")
+    @Column(nullable = false)
     private String status;
     @Column(nullable = false)
     private BigDecimal balance;

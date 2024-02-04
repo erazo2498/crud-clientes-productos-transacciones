@@ -9,14 +9,16 @@ import java.util.Optional;
 import static com.quind.pruebatecnica.configuration.Constants.ACCOUNT_TYPE_INVALID_MESSAGE;
 
 public enum AccountTypeEnum {
-    SAVING_ACCOUNT("53","Cuenta de ahorro"),
-    CHECKING_ACCOUNT("33", "Cuenta corriente");
+    SAVING_ACCOUNT("A","Cuenta de ahorro", "5300000000"),
+    CHECKING_ACCOUNT("C", "Cuenta corriente", "3300000000");
 
     private final String accountTypeIdentifier;
     private final String accountTypeDescription;
-    AccountTypeEnum(String accountTypeIdentifier, String accountTypeDescription) {
+    private final String defaultNumber;
+    AccountTypeEnum(String accountTypeIdentifier, String accountTypeDescription, String defaultNumber) {
         this.accountTypeIdentifier = accountTypeIdentifier;
         this.accountTypeDescription = accountTypeDescription;
+        this.defaultNumber = defaultNumber;
     }
 
     private static final Map<String, AccountTypeEnum> map;
@@ -39,5 +41,9 @@ public enum AccountTypeEnum {
 
     public String getAccountTypeIdentifier() {
         return accountTypeIdentifier;
+    }
+
+    public String getDefaultNumber() {
+        return defaultNumber;
     }
 }

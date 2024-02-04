@@ -24,14 +24,26 @@ public class ProductUseCase implements IProductServicePort {
 
     @Override
     public void createProduct(Product product) {
-        assignAccountType(product);
-        validateIfExistProduct(product);
+        AccountTypeEnum accountTypeEnum = AccountTypeEnum.findByAccountTypeEnumKey(product.getAccountType());
         validateIfExistCustomer(product);
         validateBalancePositive(product);
+
         product.setStatus(StatusEnum.ACTIVE.getValue());
         product.setCreatedDate(LocalDateTime.now());
         product.setModifiedDate(LocalDateTime.now());
+        product.setAccountNumber(generateConsecutiveAccountNumber(accountTypeEnum));
+        product.setAccountType(accountTypeEnum.getAccountTypeDescription());
+
+        validateIfExistProduct(product);
         productPersistencePort.createProduct(product);
+    }
+
+    private String generateConsecutiveAccountNumber(AccountTypeEnum accountTypeEnum) {
+        long nextConsecutive = productPersistencePort.getNextConsecutiveNumberAccount(accountTypeEnum.getAccountTypeDescription());
+        if(nextConsecutive>0){
+            return String.valueOf(nextConsecutive);
+        }
+        return accountTypeEnum.getDefaultNumber();
     }
 
     private void validateBalancePositive(Product product) {
@@ -50,17 +62,6 @@ public class ProductUseCase implements IProductServicePort {
         if(!customerPersistencePort.existCustomerById(product.getCustomerId())){
             throw new CustomerNotFoundException();
         }
-    }
-
-    private void assignAccountType(Product product) {
-        String initialNumber = product.getAccountNumber().substring(0,2);
-        product.setAccountType(
-                AccountTypeEnum.
-                findByAccountTypeEnumKey(
-                        initialNumber
-                        ).
-                getAccountTypeDescription()
-        );
     }
 
 }

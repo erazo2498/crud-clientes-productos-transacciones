@@ -12,12 +12,10 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Getter
 public class ProductRequestDto {
-    private Long id;
-    @NotBlank(message = "El tipo de accountNumber no puede ser nulo o vacio")
-    @Pattern(regexp = "^(33|53)\\d{8}$", message = "El número de las cuentas debe iniciar en '33 o 53' y tener 10 dígitos numéricos.")
-    private String accountNumber;
-    @NotBlank(message = "El tipo de status no puede ser nulo o vacio")
-    private String status;
+    @NotBlank(message = "El tipo de cuenta no puede ser nulo o vacio")
+    @Pattern(regexp = "^[AC]$",message = "el tipo de cuenta debe ser A ó C, de ahorro o corriente")
+    private String accountType;
+    @NotNull
     private BigDecimal balance;
     @NotNull
     private Boolean exemptGMF;

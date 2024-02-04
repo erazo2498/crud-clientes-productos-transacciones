@@ -24,4 +24,9 @@ public class ProductMySqlAdapter implements IProductPersistencePort {
     public boolean existProductByAccountNumber(String accountNumber) {
         return productRepository.existsByAccountNumberIgnoreCase(accountNumber);
     }
+
+    @Override
+    public long getNextConsecutiveNumberAccount(String accountType){
+        return productRepository.getNextConsecutiveNumberAccount(accountType);
+    }
 }
