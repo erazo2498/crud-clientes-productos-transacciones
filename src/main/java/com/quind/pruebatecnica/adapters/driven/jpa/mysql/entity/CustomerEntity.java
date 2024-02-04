@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "customer")
@@ -32,4 +33,6 @@ public class CustomerEntity {
     @Column(name = "modified_date")
     private LocalDateTime modifiedDate;
 
+    @OneToMany(mappedBy = "customer")
+    private List<ProductEntity> products;
 }
