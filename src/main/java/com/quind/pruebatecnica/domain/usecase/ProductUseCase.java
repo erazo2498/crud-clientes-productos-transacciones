@@ -5,6 +5,7 @@ import com.quind.pruebatecnica.adapters.driven.jpa.mysql.exceptions.ProductAlrea
 import com.quind.pruebatecnica.domain.api.IProductServicePort;
 import com.quind.pruebatecnica.domain.enums.AccountTypeEnum;
 import com.quind.pruebatecnica.domain.enums.StatusEnum;
+import com.quind.pruebatecnica.domain.exceptions.DomainException;
 import com.quind.pruebatecnica.domain.exceptions.NegativeBalanceException;
 import com.quind.pruebatecnica.domain.model.Product;
 import com.quind.pruebatecnica.domain.spi.ICustomerPersistencePort;
@@ -36,6 +37,46 @@ public class ProductUseCase implements IProductServicePort {
 
         validateIfExistProduct(product);
         productPersistencePort.createProduct(product);
+    }
+
+    @Override
+    public void activateProduct(Long id) {
+        Product product = productPersistencePort.getProduct(id).orElseThrow(()->
+                new DomainException("No es posible activar el producto debido a que no existe"));
+        if(!StatusEnum.INACTIVE.getValue().equals(product.getStatus())){
+            throw new DomainException("No es posible activar el producto porque no se encuentra inactivo");
+        }
+        product.setStatus(StatusEnum.ACTIVE.getValue());
+        product.setModifiedDate(LocalDateTime.now());
+        productPersistencePort.updateProduct(product);
+    }
+    
+    @Override
+    public void inactivateProduct(Long id) {
+        Product product = productPersistencePort.getProduct(id).orElseThrow(()->
+                new DomainException("No es posible inactivar el producto debido a que no existe"));
+        if(!StatusEnum.ACTIVE.getValue().equals(product.getStatus())){
+            throw new DomainException("No es posible inactivar el producto porque no se encuentra activo");
+        }
+        product.setStatus(StatusEnum.INACTIVE.getValue());
+        product.setModifiedDate(LocalDateTime.now());
+        productPersistencePort.updateProduct(product);
+    }
+
+    @Override
+    public void cancelProduct(Long id) {
+        Product product = productPersistencePort.getProduct(id).orElseThrow(()->
+                new DomainException("No es posible cancelar el producto debido a que no existe"));
+        if(!product.getBalance().equals(BigDecimal.ZERO)){
+            throw new DomainException("No es posible cancelar el producto porque su saldo no es 0");
+        }
+
+        if(StatusEnum.CANCELLED.getValue().equals(product.getStatus())){
+            throw new DomainException("No es posible cancelar el producto porque ya se encuentra cancelado");
+        }
+        product.setStatus(StatusEnum.CANCELLED.getValue());
+        product.setModifiedDate(LocalDateTime.now());
+        productPersistencePort.updateProduct(product);
     }
 
     private String generateConsecutiveAccountNumber(AccountTypeEnum accountTypeEnum) {
