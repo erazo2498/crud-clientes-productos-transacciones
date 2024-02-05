@@ -4,10 +4,7 @@ import com.quind.pruebatecnica.adapters.driven.jpa.mysql.exceptions.CustomerAlre
 import com.quind.pruebatecnica.adapters.driven.jpa.mysql.exceptions.CustomerAlreadyExistsWithIDException;
 import com.quind.pruebatecnica.adapters.driven.jpa.mysql.exceptions.CustomerNotFoundException;
 import com.quind.pruebatecnica.adapters.driven.jpa.mysql.exceptions.ProductAlreadyExistsException;
-import com.quind.pruebatecnica.domain.exceptions.AgeNoValidException;
-import com.quind.pruebatecnica.domain.exceptions.BaseException;
-import com.quind.pruebatecnica.domain.exceptions.InvalidValueException;
-import com.quind.pruebatecnica.domain.exceptions.NegativeBalanceException;
+import com.quind.pruebatecnica.domain.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -82,6 +79,13 @@ public class ControllerAdvisor {
             InvalidValueException customerNotFoundException) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(Collections.singletonMap(RESPONSE_ERROR_MESSAGE_KEY, customerNotFoundException.getMessage()));
+    }
+
+    @ExceptionHandler(NoDataException.class)
+    public ResponseEntity<Map<String, String>> noDataException(
+            NoDataException noDataException) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Collections.singletonMap(RESPONSE_ERROR_MESSAGE_KEY, noDataException.getMessage()));
     }
 
     @ExceptionHandler(BaseException.class)
