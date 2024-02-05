@@ -10,4 +10,6 @@ import org.mapstruct.ReportingPolicy;
         unmappedSourcePolicy = ReportingPolicy.IGNORE)
 public interface ICustomerEntityMapper {
     CustomerEntity toEntity(Customer customer);
+    Customer toCustomer(CustomerEntity customerEntity);
+
 }

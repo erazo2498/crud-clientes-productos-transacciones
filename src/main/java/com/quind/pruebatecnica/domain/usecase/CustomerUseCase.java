@@ -36,6 +36,11 @@ public class CustomerUseCase implements ICustomerServicePort {
         customerPersistencePort.deleteCustomerById(id);
     }
 
+    @Override
+    public Customer getCustomerById(Long customerId) {
+        return customerPersistencePort.getCustomerById(customerId);
+    }
+
     private void validateCustomerIsOlder(LocalDate birthday) {
         LocalDate currentDate = LocalDate.now();
         Period age = Period.between(birthday, currentDate);

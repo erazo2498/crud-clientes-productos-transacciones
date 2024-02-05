@@ -8,4 +8,6 @@ public interface ICustomerServicePort {
     void updateCustomer(Customer customer);
 
     void deleteCustomerById(Long id);
+
+    Customer getCustomerById(Long customerId);
 }

@@ -2,6 +2,7 @@ package com.quind.pruebatecnica.adapters.driving.http.controller;
 
 import com.quind.pruebatecnica.adapters.driving.http.dto.request.customer.CustomerRequestDto;
 import com.quind.pruebatecnica.adapters.driving.http.dto.request.customer.RequestUpdateCustomerDto;
+import com.quind.pruebatecnica.adapters.driving.http.dto.response.CustomerResponseDto;
 import com.quind.pruebatecnica.adapters.driving.http.handlers.ICustomerHandler;
 import com.quind.pruebatecnica.configuration.Constants;
 import io.swagger.v3.oas.annotations.Operation;
@@ -9,6 +10,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +24,11 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class CustomerController {
     private final ICustomerHandler customerHandler;
+    @GetMapping("/{customerId}")
+    public ResponseEntity<CustomerResponseDto> getCustomer(@NotNull @PathVariable Long customerId){
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(customerHandler.getCustomerById(customerId));
+    }
 
     @Operation(summary = "Add a new customer",
             responses = {

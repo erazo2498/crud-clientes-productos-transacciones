@@ -20,6 +20,13 @@ public class CustomerMySqlAdapter implements ICustomerPersistencePort {
     private final ICustomerEntityMapper customerEntityMapper;
 
     @Override
+    public Customer getCustomerById(Long customerId) {
+        return customerEntityMapper.
+                toCustomer(customerRepository.findById(customerId).
+                        orElseThrow(CustomerNotFoundException::new));
+    }
+
+    @Override
     public void createCustomer(Customer customer) {
         if (customerRepository.existsByIdentificationNumberIgnoreCaseAndIdentificationTypeIgnoreCase(
                 customer.getIdentificationNumber(),
