@@ -26,7 +26,7 @@ public class CustomerController {
     private final ICustomerHandler customerHandler;
     @GetMapping("/{customerId}")
     public ResponseEntity<CustomerResponseDto> getCustomer(@NotNull @PathVariable Long customerId){
-        return ResponseEntity.status(HttpStatus.CREATED)
+        return ResponseEntity.status(HttpStatus.OK)
                 .body(customerHandler.getCustomerById(customerId));
     }
 
