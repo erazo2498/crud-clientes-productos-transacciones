@@ -65,8 +65,7 @@ public class ProductUseCase implements IProductServicePort {
 
     @Override
     public void cancelProduct(Long id) {
-        Product product = productPersistencePort.getProduct(id).orElseThrow(()->
-                new DomainException("No es posible cancelar el producto debido a que no existe"));
+        Product product = getProductWithException(id,"No es posible cancelar el producto debido a que no existe");
         if(product.getBalance().compareTo(BigDecimal.ZERO) != 0){
             throw new DomainException("No es posible cancelar el producto porque su saldo no es 0");
         }
@@ -77,6 +76,16 @@ public class ProductUseCase implements IProductServicePort {
         product.setStatus(StatusEnum.CANCELLED.getValue());
         product.setModifiedDate(LocalDateTime.now());
         productPersistencePort.updateProduct(product);
+    }
+
+    @Override
+    public Product getProduct(Long productId) {
+        return getProductWithException(productId, "El producto con el id ingresado no existe");
+    }
+
+    private Product getProductWithException(Long productId, String message) {
+        return productPersistencePort.
+                getProduct(productId).orElseThrow(() -> new DomainException(message));
     }
 
     private String generateConsecutiveAccountNumber(AccountTypeEnum accountTypeEnum) {

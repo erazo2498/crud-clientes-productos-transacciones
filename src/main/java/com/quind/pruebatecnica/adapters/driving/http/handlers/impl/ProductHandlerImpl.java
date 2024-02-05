@@ -1,6 +1,7 @@
 package com.quind.pruebatecnica.adapters.driving.http.handlers.impl;
 
 import com.quind.pruebatecnica.adapters.driving.http.dto.request.product.ProductRequestDto;
+import com.quind.pruebatecnica.adapters.driving.http.dto.response.ProductResponseDto;
 import com.quind.pruebatecnica.adapters.driving.http.handlers.IProductHandler;
 import com.quind.pruebatecnica.adapters.driving.http.mapper.IProductRequestMapper;
 import com.quind.pruebatecnica.domain.api.IProductServicePort;
@@ -30,6 +31,12 @@ public class ProductHandlerImpl implements IProductHandler {
     @Override
     public void cancelProduct(Long id) {
         productServicePort.cancelProduct(id);
+    }
+
+    @Override
+    public ProductResponseDto getProduct(Long productId) {
+        return productRequestMapper.
+                toProductResponseDto(productServicePort.getProduct(productId));
     }
 
 

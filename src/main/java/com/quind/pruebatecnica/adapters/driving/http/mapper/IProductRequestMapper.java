@@ -1,6 +1,7 @@
 package com.quind.pruebatecnica.adapters.driving.http.mapper;
 
 import com.quind.pruebatecnica.adapters.driving.http.dto.request.product.ProductRequestDto;
+import com.quind.pruebatecnica.adapters.driving.http.dto.response.ProductResponseDto;
 import com.quind.pruebatecnica.domain.model.Product;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
@@ -11,5 +12,6 @@ import org.mapstruct.ReportingPolicy;
 public interface IProductRequestMapper {
 
     Product toCustomer(ProductRequestDto productRequestDto);
+    ProductResponseDto toProductResponseDto(Product product);
 
 }

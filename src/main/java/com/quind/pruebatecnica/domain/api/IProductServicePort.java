@@ -7,5 +7,5 @@ public interface IProductServicePort {
     void inactivateProduct(Long id);
     void activateProduct(Long id);
     void cancelProduct(Long id);
-
+    Product getProduct(Long productId);
 }
