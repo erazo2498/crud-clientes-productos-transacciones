@@ -41,23 +41,20 @@ public class ProductUseCase implements IProductServicePort {
 
     @Override
     public void activateProduct(Long id) {
-        Product product = productPersistencePort.getProduct(id).orElseThrow(()->
-                new DomainException("No es posible activar el producto debido a que no existe"));
-        if(!StatusEnum.INACTIVE.getValue().equals(product.getStatus())){
-            throw new DomainException("No es posible activar el producto porque no se encuentra inactivo");
-        }
+        Product product = getProductWithException(id,"No es posible activar el producto debido a que no existe");
+
+        validateStatusDifferent(StatusEnum.INACTIVE.getValue(), product.getStatus(),
+                "No es posible activar el producto porque no se encuentra inactivo");
         product.setStatus(StatusEnum.ACTIVE.getValue());
         product.setModifiedDate(LocalDateTime.now());
         productPersistencePort.updateProduct(product);
     }
-    
+
     @Override
     public void inactivateProduct(Long id) {
-        Product product = productPersistencePort.getProduct(id).orElseThrow(()->
-                new DomainException("No es posible inactivar el producto debido a que no existe"));
-        if(!StatusEnum.ACTIVE.getValue().equals(product.getStatus())){
-            throw new DomainException("No es posible inactivar el producto porque no se encuentra activo");
-        }
+        Product product = getProductWithException(id,"No es posible inactivar el producto debido a que no existe");
+        validateStatusDifferent(StatusEnum.ACTIVE.getValue(), product.getStatus(),
+                "No es posible inactivar el producto porque no se encuentra activo");
         product.setStatus(StatusEnum.INACTIVE.getValue());
         product.setModifiedDate(LocalDateTime.now());
         productPersistencePort.updateProduct(product);
@@ -66,16 +63,22 @@ public class ProductUseCase implements IProductServicePort {
     @Override
     public void cancelProduct(Long id) {
         Product product = getProductWithException(id,"No es posible cancelar el producto debido a que no existe");
+
         if(product.getBalance().compareTo(BigDecimal.ZERO) != 0){
             throw new DomainException("No es posible cancelar el producto porque su saldo no es 0");
         }
+        validateStatusEquals(StatusEnum.CANCELLED.getValue(), product.getStatus(),
+                "No es posible cancelar el producto porque ya se encuentra cancelado");
 
-        if(StatusEnum.CANCELLED.getValue().equals(product.getStatus())){
-            throw new DomainException("No es posible cancelar el producto porque ya se encuentra cancelado");
-        }
         product.setStatus(StatusEnum.CANCELLED.getValue());
         product.setModifiedDate(LocalDateTime.now());
         productPersistencePort.updateProduct(product);
+    }
+
+    private void validateStatusEquals(String status1, String status2, String message) {
+        if(status1.equals(status2)){
+            throw new DomainException(message);
+        }
     }
 
     @Override
@@ -90,10 +93,7 @@ public class ProductUseCase implements IProductServicePort {
 
     private String generateConsecutiveAccountNumber(AccountTypeEnum accountTypeEnum) {
         long nextConsecutive = productPersistencePort.getNextConsecutiveNumberAccount(accountTypeEnum.getAccountTypeDescription());
-        if(nextConsecutive>0){
-            return String.valueOf(nextConsecutive);
-        }
-        return accountTypeEnum.getDefaultNumber();
+        return nextConsecutive>0? String.valueOf(nextConsecutive) : accountTypeEnum.getDefaultNumber();
     }
 
     private void validateBalancePositive(Product product) {
@@ -111,6 +111,12 @@ public class ProductUseCase implements IProductServicePort {
     private void validateIfExistCustomer(Product product) {
         if(!customerPersistencePort.existCustomerById(product.getCustomerId())){
             throw new CustomerNotFoundException();
+        }
+    }
+
+    private void validateStatusDifferent(String status1, String status2, String message) {
+        if(!status1.equals(status2)){
+            throw new DomainException(message);
         }
     }
 
