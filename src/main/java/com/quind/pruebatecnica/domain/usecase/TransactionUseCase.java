@@ -8,10 +8,11 @@ import com.quind.pruebatecnica.domain.model.Product;
 import com.quind.pruebatecnica.domain.model.Transaction;
 import com.quind.pruebatecnica.domain.spi.IProductPersistencePort;
 import com.quind.pruebatecnica.domain.spi.ITransactionPersistencePort;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-
+@Transactional
 public class TransactionUseCase implements ITransactionServicePort {
     private final ITransactionPersistencePort transactionPersistencePort;
     private final IProductPersistencePort productPersistencePort;

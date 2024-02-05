@@ -5,10 +5,12 @@ import com.quind.pruebatecnica.domain.exceptions.AgeNoValidException;
 import com.quind.pruebatecnica.domain.exceptions.DomainException;
 import com.quind.pruebatecnica.domain.model.Customer;
 import com.quind.pruebatecnica.domain.spi.ICustomerPersistencePort;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.Period;
 
+@Transactional
 public class CustomerUseCase implements ICustomerServicePort {
     private final ICustomerPersistencePort customerPersistencePort;
 

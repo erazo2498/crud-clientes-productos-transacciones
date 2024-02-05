@@ -10,8 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-
-@Transactional
 @RequiredArgsConstructor
 public class ProductMySqlAdapter implements IProductPersistencePort {
     private final IProductRepository productRepository;

@@ -1,16 +1,15 @@
 package com.quind.pruebatecnica.domain.usecase;
 
-import com.quind.pruebatecnica.adapters.driven.jpa.mysql.exceptions.CustomerNotFoundException;
 import com.quind.pruebatecnica.adapters.driven.jpa.mysql.exceptions.ProductAlreadyExistsException;
 import com.quind.pruebatecnica.domain.api.IProductServicePort;
 import com.quind.pruebatecnica.domain.enums.AccountTypeEnum;
 import com.quind.pruebatecnica.domain.enums.StatusEnum;
-import com.quind.pruebatecnica.domain.exceptions.DomainException;
 import com.quind.pruebatecnica.domain.exceptions.InvalidValueException;
 import com.quind.pruebatecnica.domain.exceptions.NoDataException;
 import com.quind.pruebatecnica.domain.model.Product;
 import com.quind.pruebatecnica.domain.spi.ICustomerPersistencePort;
 import com.quind.pruebatecnica.domain.spi.IProductPersistencePort;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -18,6 +17,7 @@ import java.time.LocalDateTime;
 import static com.quind.pruebatecnica.configuration.Constants.BALANCE_NEGATIVE_MESSAGE;
 import static com.quind.pruebatecnica.configuration.Constants.CUSTOMER_NOT_FOUND_MESSAGE;
 
+@Transactional
 public class ProductUseCase implements IProductServicePort {
     private final IProductPersistencePort productPersistencePort;
     private final ICustomerPersistencePort customerPersistencePort;
