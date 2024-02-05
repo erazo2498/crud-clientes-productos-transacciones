@@ -67,17 +67,11 @@ public class ControllerAdvisor {
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
                 .body(Collections.singletonMap(RESPONSE_ERROR_MESSAGE_KEY, PRODUCT_ALREADY_EXISTS_WITH_ID_MESSAGE));
     }
-    @ExceptionHandler(NegativeBalanceException.class)
-    public ResponseEntity<Map<String, String>> handleNegativeBalanceException(
-            NegativeBalanceException negativeBalanceException) {
-        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
-                .body(Collections.singletonMap(RESPONSE_ERROR_MESSAGE_KEY, BALANCE_NEGATIVE_MESSAGE));
-    }
 
     @ExceptionHandler(InvalidValueException.class)
     public ResponseEntity<Map<String, String>> invalidValueException(
             InvalidValueException customerNotFoundException) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
                 .body(Collections.singletonMap(RESPONSE_ERROR_MESSAGE_KEY, customerNotFoundException.getMessage()));
     }
 
@@ -88,11 +82,11 @@ public class ControllerAdvisor {
                 .body(Collections.singletonMap(RESPONSE_ERROR_MESSAGE_KEY, noDataException.getMessage()));
     }
 
-    @ExceptionHandler(BaseException.class)
-    public ResponseEntity<Map<String, String>> baseException(
-            BaseException baseException) {
+    @ExceptionHandler(DomainException.class)
+    public ResponseEntity<Map<String, String>> domainException(
+            DomainException domainException) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(Collections.singletonMap(RESPONSE_ERROR_MESSAGE_KEY, baseException.getMessage()));
+                .body(Collections.singletonMap(RESPONSE_ERROR_MESSAGE_KEY, domainException.getMessage()));
     }
 
 

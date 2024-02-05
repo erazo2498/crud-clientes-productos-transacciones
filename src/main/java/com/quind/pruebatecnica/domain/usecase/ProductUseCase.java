@@ -6,13 +6,17 @@ import com.quind.pruebatecnica.domain.api.IProductServicePort;
 import com.quind.pruebatecnica.domain.enums.AccountTypeEnum;
 import com.quind.pruebatecnica.domain.enums.StatusEnum;
 import com.quind.pruebatecnica.domain.exceptions.DomainException;
-import com.quind.pruebatecnica.domain.exceptions.NegativeBalanceException;
+import com.quind.pruebatecnica.domain.exceptions.InvalidValueException;
+import com.quind.pruebatecnica.domain.exceptions.NoDataException;
 import com.quind.pruebatecnica.domain.model.Product;
 import com.quind.pruebatecnica.domain.spi.ICustomerPersistencePort;
 import com.quind.pruebatecnica.domain.spi.IProductPersistencePort;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+
+import static com.quind.pruebatecnica.configuration.Constants.BALANCE_NEGATIVE_MESSAGE;
+import static com.quind.pruebatecnica.configuration.Constants.CUSTOMER_NOT_FOUND_MESSAGE;
 
 public class ProductUseCase implements IProductServicePort {
     private final IProductPersistencePort productPersistencePort;
@@ -65,7 +69,7 @@ public class ProductUseCase implements IProductServicePort {
         Product product = getProductWithException(id,"No es posible cancelar el producto debido a que no existe");
 
         if(product.getBalance().compareTo(BigDecimal.ZERO) != 0){
-            throw new DomainException("No es posible cancelar el producto porque su saldo no es 0");
+            throw new InvalidValueException("No es posible cancelar el producto porque su saldo no es 0");
         }
         validateStatusEquals(StatusEnum.CANCELLED.getValue(), product.getStatus(),
                 "No es posible cancelar el producto porque ya se encuentra cancelado");
@@ -74,13 +78,6 @@ public class ProductUseCase implements IProductServicePort {
         product.setModifiedDate(LocalDateTime.now());
         productPersistencePort.updateProduct(product);
     }
-
-    private void validateStatusEquals(String status1, String status2, String message) {
-        if(status1.equals(status2)){
-            throw new DomainException(message);
-        }
-    }
-
     @Override
     public Product getProduct(Long productId) {
         return getProductWithException(productId, "El producto con el id ingresado no existe");
@@ -88,7 +85,7 @@ public class ProductUseCase implements IProductServicePort {
 
     private Product getProductWithException(Long productId, String message) {
         return productPersistencePort.
-                getProduct(productId).orElseThrow(() -> new DomainException(message));
+                getProduct(productId).orElseThrow(() -> new NoDataException(message));
     }
 
     private String generateConsecutiveAccountNumber(AccountTypeEnum accountTypeEnum) {
@@ -98,7 +95,19 @@ public class ProductUseCase implements IProductServicePort {
 
     private void validateBalancePositive(Product product) {
         if(product.getBalance().compareTo(BigDecimal.ZERO)<0){
-            throw new NegativeBalanceException();
+            throw new InvalidValueException(BALANCE_NEGATIVE_MESSAGE);
+        }
+    }
+
+    private void validateStatusEquals(String status1, String status2, String message) {
+        if(status1.equals(status2)){
+            throw new InvalidValueException(message);
+        }
+    }
+
+    private void validateStatusDifferent(String status1, String status2, String message) {
+        if(!status1.equals(status2)){
+            throw new InvalidValueException(message);
         }
     }
 
@@ -110,14 +119,10 @@ public class ProductUseCase implements IProductServicePort {
 
     private void validateIfExistCustomer(Product product) {
         if(!customerPersistencePort.existCustomerById(product.getCustomerId())){
-            throw new CustomerNotFoundException();
+            throw new NoDataException(CUSTOMER_NOT_FOUND_MESSAGE);
         }
     }
 
-    private void validateStatusDifferent(String status1, String status2, String message) {
-        if(!status1.equals(status2)){
-            throw new DomainException(message);
-        }
-    }
+
 
 }
