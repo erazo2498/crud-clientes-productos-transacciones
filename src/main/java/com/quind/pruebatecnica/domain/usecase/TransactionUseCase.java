@@ -62,10 +62,7 @@ public class TransactionUseCase implements ITransactionServicePort {
     }
 
     private static BigDecimal getGMF(BigDecimal value, Product product) {
-        if (!product.getExemptGMF()) {
-            return value.multiply(BigDecimal.valueOf(0.004));
-        }
-        return BigDecimal.ZERO;
+        return !product.getExemptGMF()? value.multiply(BigDecimal.valueOf(0.004)) : BigDecimal.ZERO;
     }
 
     public void transfer(Transaction transaction) {
