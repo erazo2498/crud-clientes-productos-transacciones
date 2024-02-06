@@ -11,7 +11,6 @@ import com.quind.pruebatecnica.domain.spi.ITransactionPersistencePort;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 @Transactional
 public class TransactionUseCase implements ITransactionServicePort {
     private final ITransactionPersistencePort transactionPersistencePort;
@@ -38,10 +37,7 @@ public class TransactionUseCase implements ITransactionServicePort {
 
     public void deposit(Long productId, BigDecimal value) {
         Product product = validateProductExist(productId);
-
-        product.setModifiedDate(LocalDateTime.now());
         product.setBalance(product.getBalance().add(value));
-
         productPersistencePort.updateProduct(product);
     }
 
@@ -56,8 +52,6 @@ public class TransactionUseCase implements ITransactionServicePort {
         }
 
         product.setBalance(product.getBalance().subtract(valueToDecrease));
-        product.setModifiedDate(LocalDateTime.now());
-
         productPersistencePort.updateProduct(product);
     }
 

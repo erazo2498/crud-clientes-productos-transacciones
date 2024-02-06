@@ -35,12 +35,6 @@ public class ProductEntity extends AuditableEntity {
     private BigDecimal balance;
     @Column(name = "exempt_GMF", nullable = false)
     private Boolean exemptGMF;
-//
-//    @Column(name = "created_date", nullable = false)
-//    private LocalDateTime createdDate;
-
-//    @Column(name = "modified_date", nullable = false)
-//    private LocalDateTime modifiedDate;
 
     @Column(name = "id_customer", nullable = false)
     private Long customerId;
