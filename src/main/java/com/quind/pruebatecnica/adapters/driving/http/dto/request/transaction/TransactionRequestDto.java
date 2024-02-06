@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 @Getter
 public class TransactionRequestDto {
     @NotNull
-    @Pattern(regexp = "^[DR]$",message = "el tipo de transaccion debe ser D ó R, de DEPOSITO o RETIRO")
+    @Pattern(regexp = "^[CR]$",message = "el tipo de transaccion debe ser C ó R, de CONSIGNACIÓN o RETIRO")
     private String type;
 
     @NotNull(message = "Debe asignar un valor")
