@@ -1,11 +1,13 @@
 package com.quind.pruebatecnica.adapters.driven.jpa.mysql.entity;
 
+import com.quind.pruebatecnica.adapters.driven.jpa.mysql.audit.AuditableEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -14,9 +16,10 @@ import java.time.LocalDateTime;
 @Table(name = "product")
 @NoArgsConstructor
 @AllArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter
-public class ProductEntity {
+public class ProductEntity extends AuditableEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
@@ -33,12 +36,12 @@ public class ProductEntity {
     private BigDecimal balance;
     @Column(name = "exempt_GMF", nullable = false)
     private Boolean exemptGMF;
+//
+//    @Column(name = "created_date", nullable = false)
+//    private LocalDateTime createdDate;
 
-    @Column(name = "created_date", nullable = false)
-    private LocalDateTime createdDate;
-
-    @Column(name = "modified_date", nullable = false)
-    private LocalDateTime modifiedDate;
+//    @Column(name = "modified_date", nullable = false)
+//    private LocalDateTime modifiedDate;
 
     @Column(name = "id_customer", nullable = false)
     private Long customerId;

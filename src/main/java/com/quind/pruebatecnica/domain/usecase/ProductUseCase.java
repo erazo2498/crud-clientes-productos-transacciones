@@ -12,7 +12,6 @@ import com.quind.pruebatecnica.domain.spi.IProductPersistencePort;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 import static com.quind.pruebatecnica.configuration.Constants.BALANCE_NEGATIVE_MESSAGE;
 import static com.quind.pruebatecnica.configuration.Constants.CUSTOMER_NOT_FOUND_MESSAGE;
@@ -34,8 +33,6 @@ public class ProductUseCase implements IProductServicePort {
         validateBalancePositive(product);
 
         product.setStatus(StatusEnum.ACTIVE.getValue());
-        product.setCreatedDate(LocalDateTime.now());
-        product.setModifiedDate(LocalDateTime.now());
         product.setAccountNumber(generateConsecutiveAccountNumber(accountTypeEnum));
         product.setAccountType(accountTypeEnum.getAccountTypeDescription());
 
@@ -50,7 +47,6 @@ public class ProductUseCase implements IProductServicePort {
         validateStatusDifferent(StatusEnum.INACTIVE.getValue(), product.getStatus(),
                 "No es posible activar el producto porque no se encuentra inactivo");
         product.setStatus(StatusEnum.ACTIVE.getValue());
-        product.setModifiedDate(LocalDateTime.now());
         productPersistencePort.updateProduct(product);
     }
 
@@ -60,7 +56,6 @@ public class ProductUseCase implements IProductServicePort {
         validateStatusDifferent(StatusEnum.ACTIVE.getValue(), product.getStatus(),
                 "No es posible inactivar el producto porque no se encuentra activo");
         product.setStatus(StatusEnum.INACTIVE.getValue());
-        product.setModifiedDate(LocalDateTime.now());
         productPersistencePort.updateProduct(product);
     }
 
@@ -75,7 +70,6 @@ public class ProductUseCase implements IProductServicePort {
                 "No es posible cancelar el producto porque ya se encuentra cancelado");
 
         product.setStatus(StatusEnum.CANCELLED.getValue());
-        product.setModifiedDate(LocalDateTime.now());
         productPersistencePort.updateProduct(product);
     }
     @Override
@@ -122,7 +116,5 @@ public class ProductUseCase implements IProductServicePort {
             throw new NoDataException(CUSTOMER_NOT_FOUND_MESSAGE);
         }
     }
-
-
 
 }

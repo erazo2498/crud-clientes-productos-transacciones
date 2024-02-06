@@ -1,10 +1,13 @@
 package com.quind.pruebatecnica.adapters.driven.jpa.mysql.entity;
 
+import com.quind.pruebatecnica.adapters.driven.jpa.mysql.audit.AuditableEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -14,9 +17,10 @@ import java.util.List;
 @Table(name = "customer")
 @NoArgsConstructor
 @AllArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter
-public class CustomerEntity {
+public class CustomerEntity extends AuditableEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,10 +32,6 @@ public class CustomerEntity {
     private String surname;
     private String mail;
     private LocalDate birthday;
-    @Column(name = "created_date")
-    private LocalDateTime createdDate;
-    @Column(name = "modified_date")
-    private LocalDateTime modifiedDate;
 
     @OneToMany(mappedBy = "customer")
     private List<ProductEntity> products;

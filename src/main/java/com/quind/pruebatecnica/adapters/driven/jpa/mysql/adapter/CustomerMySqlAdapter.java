@@ -34,14 +34,17 @@ public class CustomerMySqlAdapter implements ICustomerPersistencePort {
         ) {
             throw new CustomerAlreadyExistsException();
         }
-        customer.setCreatedDate(LocalDateTime.now());
-        customer.setModifiedDate(LocalDateTime.now());
+//        customer.setCreatedDate(LocalDateTime.now());
+//        customer.setModifiedDate(LocalDateTime.now());
         customerRepository.save(customerEntityMapper.toEntity(customer));
     }
 
     @Override
     public void updateCustomer(Customer customer) {
-        modifyDateIfPresent(customer);
+//        modifyDateIfPresent(customer);
+        if(!customerRepository.existsById(customer.getId())){
+            throw new CustomerNotFoundException();
+        }
         validateIfIdentificationExistInOtherCustomer(customer);
         customerRepository.save(customerEntityMapper.toEntity(customer));
     }
@@ -62,19 +65,6 @@ public class CustomerMySqlAdapter implements ICustomerPersistencePort {
     @Override
     public boolean haveCustomerAnyProductAssociated(Long customerId) {
         return customerRepository.haveCustomerAnyProductAssociated(customerId) == 1;
-    }
-
-    private void modifyDateIfPresent(Customer customer) {
-        Optional<CustomerEntity> customerEntity = customerRepository.findById(customer.getId());
-        customerEntity.ifPresentOrElse(
-                customerEntity1 -> {
-                    customer.setCreatedDate(customerEntity1.getCreatedDate());
-                    customer.setModifiedDate(LocalDateTime.now());
-                },
-                () -> {
-                    throw new CustomerNotFoundException();
-                }
-        );
     }
 
     private void validateIfIdentificationExistInOtherCustomer(Customer customer) {
