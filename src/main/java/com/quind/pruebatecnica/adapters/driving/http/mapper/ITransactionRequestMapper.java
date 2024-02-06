@@ -14,7 +14,6 @@ public interface ITransactionRequestMapper {
 
     @Mapping(source = "productId", target = "originProductId")
     Transaction toTransaction(TransactionRequestDto transactionRequestDto);
-    @Mapping(source = "destinationProductId", target = "originProductId")
     Transaction toTransaction(TransferTransactionRequestDto transactionRequestDto);
 
 }
