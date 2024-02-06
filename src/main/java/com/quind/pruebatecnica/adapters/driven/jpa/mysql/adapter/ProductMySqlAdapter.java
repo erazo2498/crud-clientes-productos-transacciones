@@ -6,7 +6,6 @@ import com.quind.pruebatecnica.adapters.driven.jpa.mysql.repositories.IProductRe
 import com.quind.pruebatecnica.domain.model.Product;
 import com.quind.pruebatecnica.domain.spi.IProductPersistencePort;
 import lombok.RequiredArgsConstructor;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 

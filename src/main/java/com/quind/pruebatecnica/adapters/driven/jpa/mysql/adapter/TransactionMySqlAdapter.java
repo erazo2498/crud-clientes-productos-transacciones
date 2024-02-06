@@ -5,7 +5,6 @@ import com.quind.pruebatecnica.adapters.driven.jpa.mysql.repositories.ITransacti
 import com.quind.pruebatecnica.domain.model.Transaction;
 import com.quind.pruebatecnica.domain.spi.ITransactionPersistencePort;
 import lombok.RequiredArgsConstructor;
-import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 public class TransactionMySqlAdapter implements ITransactionPersistencePort {
